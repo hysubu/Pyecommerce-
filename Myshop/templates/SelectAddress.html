@@ -1,0 +1,143 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block main-content %}
+
+<main class="page">
+    <section class="shopping-cart dark">
+        <div class="container">
+            <div class="block-heading">
+                <h2 style="color: #063970; font-weight: bold;"><span style="color: #e28743;">Select</span> Address</h2>
+                <p>Happy Shopping Happy Day </p>
+            </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12 col-lg-8">
+                        <div class="items">
+                            <div class="product">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                    </div>
+                                    <div class="col-md-8">
+                                        {% if order.address_status == False %}
+                                        <div class="info" style="overflow: auto ;">
+                                            {% for address in address %}
+                                            <div class="row" style="box-shadow: 0 0 4px gray; margin: 10px;  padding: 10px;">
+                                               <h6 style="font-weight: 600;">{{address.username.name}} <span> <button class="btn btn-success" style="background-color: gray; font-size: 10px; ">Home</button>
+                                            </span > 
+                                                <span style="font-weight: 200;" >
+                                                    <i class="fa-solid fa-phone"></i> {{address.contact}}</span>
+                                            </h6>
+                                            <h6>
+                                                {{address.area}}, {{address.city}} {{address.district}},{{address.state}}-{{address.pincode}} 
+                                            </h6>
+                                            <form action="{% url 'add-address' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" value="{{address.id}}" name="address">
+                                                <button class="btn btn-danger" type="submit" style="background-color: #e28743; font-size: 13px;">DELIVERY HERE</button>
+                                            </form>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                        {% if order.address_status == True %}
+                                        <div>
+                                            <div style="box-shadow: 0 0 4px gray; padding: 20px; background-color: #063970;">
+                                                <div style="display: flex; justify-content: space-between; align-items: center;">
+
+                                                        <div >
+                                                            <h6 class="text-white">ADDRESS</h6>
+                                                        </div>
+                                                        <div>
+                                                        <form action="{% url  'change-address' %}" method="post">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="status"  value="False">
+                                                            <button class="btn btn-danger" style="background-color: #e28743;"> <i class="fa-solid fa-pencil"></i>Change</button>
+                                                        </form>
+                                                    </div>                                                                              
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}  
+                                        {% if order.address_status == True %}
+                                        <div class="mt-2">
+                                            <div style="box-shadow: 0 0 4px gray; padding: 20px; background-color: #063970; color: white;">PAYMENT OPTIONS</div>
+                                            <div>
+                                                <div style="box-shadow: 0 0 4px gray; padding: 20px; display: flex; justify-content: space-between;">
+                                                    <a style="text-decoration: none; color: black; font-size: 20px;" href=""> <span class="text-primary">Razor</span>Pay</a> 
+
+                                                    <form action="{% url 'razorpay' %}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="payment"  value="{{total}}">
+                                                    <button type="submit" style="background-color: #e28743;" class="btn btn-danger">Buynow</button>
+                                                </form>                                                 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if order.payment_status == True  %}
+                                        <form action=" {% url 'razorpay' %}" method="POST">
+
+                                            {% csrf_token %}
+                                            <script
+                                                src="https://checkout.razorpay.com/v1/checkout.js"
+                                                data-key="rzp_test_sT94LT9dyhA0BF" 
+                                                data-amount="{{order.total_price}}"
+                                                data-currency="INR"
+                                                data-order_id="{{order.order_id}}"
+                                                data-buttontext="Pay with Razorpay"
+                                                data-name="Acme Corp"
+                                                data-description="For Shoppin Payment  "
+                                                data-image="https://example.com/your_logo.jpg"
+                                                data-prefill.name="{{ order.name.username }}"
+                                                data-prefill.email="{{order.user.email}}"
+                                                data-theme.color="#e28743"
+                                                data-theme.color = "#e28743"
+                                            ></script>
+                                            <button type="submit">Button</button>
+                                            </form>
+                                        {% endif %}
+                                        {% endif %}
+
+
+
+                              
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-4">
+                        <div class="summary">
+                            <h3>Summary</h3>
+                            <div class="summary-item"><span class="text">Subtotal
+                                    <span>(items)</span></span><span class="price">₹{{order.product.actual_price}}</span>
+                            </div>
+                            <div class="summary-item"><span class="text">Discount</span><span
+                                    class="price text-success" >-₹{{order.product.discount_price}}</span>
+                            </div>
+                            <div class="summary-item"><span class="text">Delivery Charges</span><span
+                                    class="price text-success">Free</span>
+                            </div>
+                            <div class="summary-item"><span class="text">Packaging Charges</span><span
+                                class="price">₹{{60}}</span>
+                        </div>
+                        <br>
+                            <div class="summary-item " style="background-color: #063970; color: white; padding: 10px;"><span class="text">Total</span><span
+                                    class="price">₹{{total}}</span>
+                            </div>
+                            <!-- <button type="button" class="btn btn-primary btn-lg btn-block"
+                                style="background-color: #063970;">Checkout</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+
+    
+</main>
+
+
+{% endblock main-content %}

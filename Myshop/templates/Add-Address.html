@@ -1,0 +1,86 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block main-content %}
+
+
+
+
+<div class="address-form">
+
+ <div class="address-inside-div">
+
+  <div class="address-headline" ><i style="color: #e28743; font-size:30px;" class="fa-solid fa-truck"></i> <span>Delivery</span> Address</div>
+
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }} text-success"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+{% endif %}
+
+<form action="{% url 'address' %}" method="post">
+  {% csrf_token %}
+    <div class="row mb-4">
+      <div class="col">
+        <div class="form-outline">
+          <input type="text" id="form3Example1" value="{{request.session.username}}" class="form-control"  placeholder="@fullname" />
+          <label class="form-label"  for="form3Example1">Full name</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-outline">
+          <input type="text" id="form3Example2" name="city"  class="form-control" placeholder="@city" />
+          <label class="form-label" for="form3Example2">City</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col">
+        <div class="form-outline">
+          <input type="text" id="form3Example1" name="area"  class="form-control" placeholder="@area" />
+          <label class="form-label"  for="form3Example1">Area</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-outline">
+          <input type="text" name="state"  id="form3Example2" class="form-control" placeholder="@state" />
+          <label class="form-label" for="form3Example2">State</label>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Email input -->
+  
+  
+    <!-- Password input -->
+    <div class="row mb-4">
+      <div class="col">
+        <div class="form-outline">
+          <input type="text" id="form3Example1" name="pincode" class="form-control"  placeholder="#754214"/>
+          <label class="form-label" for="form3Example1">Pincode </label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-outline">
+          <input type="text" id="form3Example2" name="contact"  class="form-control" placeholder="123-456-8907"/>
+          <label class="form-label" for="form3Example2">Contact</label>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Checkbox -->
+
+  
+    <!-- Submit button -->
+    <div class="address-submit">
+    <button type="submit" class="btn btn-primary btn-block mb-4" style="background-color: #063970;">Submit</button>
+  </div>
+  
+   
+  </form>
+</div>
+</div>
+
+{% endblock main-content %}

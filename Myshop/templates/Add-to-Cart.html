@@ -1,0 +1,120 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block main-content %}
+
+    <main class="page">
+        <section class="shopping-cart dark">
+            <div class="container">
+                <div class="block-heading">
+                <h2 style="color: #063970; font-weight: bold;"><span style="color: #e28743;">Shopping</span> Cart</h2>
+                <p>Happy Shopping Happy Day </p>
+                </div>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-8">
+                            <div class="items">
+                                {% if viewproduct == True %}
+                                {% for product in cartproduct %}
+                                <div class="product">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <a href="{% url 'viewproduct' product.product.id  %}">
+                                                <img class="img-fluid mx-auto d-block image"
+                                                    src="{{ product.product.image1.url }}">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="info">
+                                                <div class="row">
+                                                    <div class="col-md-5 product-name">
+                                                
+                                                        <div class="product-name">
+                                                        
+                                                            <a href="#">{{product.product.title}}</a>
+                                                            <div class="product-info">
+                                                                <div>Display: <span class="value">5 inch</span></div>
+                                                                <div>RAM: <span class="value">4GB</span></div>
+                                                                <div>Memory: <span class="value">32GB</span></div>
+                                                            </div>
+                                                        
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 quantity">
+                                                        <label for="quantity">Quantity:</label>
+                                                        <input id="quantity" type="number" value="{{product.quantity}}"
+                                                            class="form-control quantity-input">
+                                                        <div class="d-flex" style="justify-content: center; gap: 2px;">
+                                                            <form action="{% url 'increase-product' %}" method="post">
+                                                                {% csrf_token %}
+                                                                <input type="hidden" value="1" name="plus">
+                                                                <input type="hidden" value="{{product.id}}" name="cart_id">
+                                                                <input type="hidden" value="{{product.product.id}}" name="item_id">
+                                                                <input type="submit" class="btn btn-danger" value="+">
+                                                            </form>
+                                                            <form action="{% url 'decrease-product' %}" method="post">
+                                                                {% csrf_token %}
+                                                                <input type="hidden" value="1" name="minus">
+                                                                <input type="hidden" value="{{product.id}}" name="cart_id">
+                                                                <input type="hidden" value="{{product.product.id}}" name="item_id">
+                                                                {% if product.quantity == 1 %}
+                                                                <input type="submit" class="btn btn-danger" disabled value="-">
+                                                                {% endif %}
+                                                                {% if product.quantity > 1 %}
+                                                                <input type="submit" class="btn btn-danger"  value="-">
+                                                                {% endif %}
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div class="price col-md-3 " style="display: flex; gap: 40px;">
+                                                        <span style="font-size: 14px;">₹{{product.total_price}}</span>
+                                                        <form action="{% url 'delete-cart-item' %}" method="post">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" value="{{product.id}}" name="remove_cart_item">
+                                                        <span><button class="btn btn-dark" type="submit" style="font-size: 10px;"><i class="fa-solid fa-trash"></i></button></span>
+                                                    </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+
+                                {% if viewproduct == False %}
+                                <div class="error-div-cart-page"
+                                    style="justify-content: center; display: flex; align-items: center; ">
+                                    <h2 style="margin-top: 180px; font-weight: bold; color: gray;">
+                                        You Have No Cart Item
+                                    </h2>
+                                </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-4">
+                            <div class="summary">
+                                <h3>Summary</h3>
+                                <div class="summary-item"><span class="text">Subtotal
+                                        <span>({{total_item}}items)</span></span><span class="price">${{total_price}}</span>
+                                </div>
+                                <div class="summary-item"><span class="text">Discount</span><span
+                                        class="price">${{discount_price}}</span>
+                                </div>
+                                <div class="summary-item"><span class="text">Shipping</span><span
+                                        class="price">${{delivery_charges}}</span>
+                                </div>
+                                <div class="summary-item"><span class="text">Total</span><span
+                                        class="price">${{total}}</span>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-lg btn-block"
+                                    style="background-color: #063970;">Checkout</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock main-content %}

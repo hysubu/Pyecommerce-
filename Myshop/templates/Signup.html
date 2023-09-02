@@ -1,0 +1,63 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block main-content %}
+
+<div class="signup-div" >
+
+ <div class="user-form">   
+    <div class="user-logo"><i class="fa-solid fa-user"></i> <span> SignuP</span> </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }} text-danger"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<form class="signup-form" method="post" action="{% url 'signup' %}">
+  {% csrf_token %}
+    <!-- Name input -->
+    <div class="form-outline mb-4">
+      <input type="text" id="name" name="name" class="form-control" placeholder="@abcs" />
+      <label class="form-label" for="form5Example1">Name</label>
+    </div>
+  
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+      <input type="email" id="email"  name="email" class="form-control" placeholder="xyz@gmail.com" />
+      <label class="form-label" for="form5Example2">Email address</label>
+    </div>
+    <div class="form-outline mb-4">
+        <input type="number" name="contact" id="contact" class="form-control" placeholder="100-99-88229" />
+        <label class="form-label"  for="form5Example1">Contact</label>
+      </div>
+
+      <div class="form-outline mb-4">
+        <input type="text" id="password" name="password" class="form-control" placeholder="password" />
+        <label class="form-label" for="form5Example1">Password</label>
+      </div>
+
+
+      <div class="form-outline mb-4">
+        <input type="text" id="repassword" name="repassword" class="form-control" placeholder="confirm password" />
+        <label class="form-label" for="form5Example1">Confirm Password</label>
+      </div>
+  
+    <!-- Checkbox -->
+    <div class="form-check d-flex justify-content-center mb-4">
+      <input class="form-check-input me-2" type="checkbox" value="" id="form5Example3" checked />
+      <label class="form-check-label" for="form5Example3">
+        I have read and agree to the terms <a href="{% url 'login' %}">login</a>
+      </label>
+    </div>
+  
+    <!-- Submit button -->
+    <div class="signup-btn">
+    <button type="submit" class="btn btn-primary btn-block mb-4">Signup</button>
+    
+    </div>
+
+  </form>
+</div>
+</div>
+
+{% endblock main-content %}

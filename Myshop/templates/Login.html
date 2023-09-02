@@ -1,0 +1,52 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block main-content %}
+
+<div class="signup-div" >
+ <div class="user-form">   
+    <div class="user-logo"><i class="fa-solid fa-user"></i> <span> LOGIN</span></div>
+ 
+
+<form class="login-form" method="post" action="{% url 'login' %}">
+  {% csrf_token %}
+    <!-- Name input -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }} text-danger"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+ 
+  
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+      <input type="email" id="form5Example2" name="email" class="form-control" placeholder="xyz@gmail.com" />
+      <label class="form-label" for="form5Example2">Email address</label>
+    </div>
+    <div class="form-outline mb-4">
+        <input type="text" id="form5Example1" name="password" class="form-control" placeholder="password" />
+        <label class="form-label" for="form5Example1">Password</label>
+      </div>
+  
+    <!-- Checkbox -->
+    <div class="form-check d-flex justify-content-center mb-4">
+      <input class="form-check-input me-2" type="checkbox" value="" id="form5Example3" checked />
+      <label class="form-check-label" for="form5Example3">
+        I have read and agree to the terms    <a href="{% url  'forgetpassword' %}">Forget password</a>
+      </label>
+      
+    </div> 
+
+  
+    <!-- Submit button -->
+    <div class="signup-btn">
+    <button type="submit" class="btn btn-primary btn-block mb-4">Login</button>
+    
+    </div>
+
+  </form>
+</div>
+</div>
+
+{% endblock main-content %}

@@ -1,0 +1,95 @@
+{% extends 'Base.html' %}
+{% load static %}
+
+{% block banner_slider %} 
+<div id="carouselExample" class="carousel slide">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static 'IMAGES/slide1.jpg' %}" class=" w-100"  alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'IMAGES/slide2.jpg' %}" class="d-block w-100"  alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'IMAGES/slide3.jpg' %}" class="d-block w-100"  alt="...">
+      </div>
+    </div>
+    <button  class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div class="border">
+    <marquee behavior="" direction="">Lorem ipsum dolor sit amet consectetur, adipisicing elit. In nostrum fugatem,   <i class=" text-white fa-solid fa-tag"></i> numquampora, rerum officia unde quod commodi.</marquee>
+</div>
+  {% endblock banner_slider %}
+
+  {% block main-content %}
+  <div class="section-2">
+      <h3>Popular Brands for You</h3>
+      <div class="row row-cols-2 g-2">
+        {% for product in product %}
+        <div class="col">
+          <div class="card mb-3" style="max-width: 480px;">
+            <div class="row g-0">
+
+              <div class="col-md-4">
+        <a href="{% url 'viewproduct' product.id %}">
+            
+                <img
+                  src="{{ product.image1.url }}" 
+                  alt="Trendy Pants and Shoes" 
+                  class="img-fluid rounded-start"/>
+                </a>
+              </div>
+       
+
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title" style="font-size: 11px;">{{product.title}}</h5>
+                  <p class="card-text" style="font-size: 10px;">
+                   {{product.description|slice:":30"}}
+                  </p>
+                  <!-- <p class="card-text">
+                    <small class="text-muted"></small>
+                  </p> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+{% endfor %}
+        </div>        
+  </div>
+
+
+<!-- Laptop section ------------------------------------ -->
+
+<div class="laptop-card-sec">
+  <h3>Popular Brands for You</h3>
+<div class="row row-cols-2 row-cols-md-2 row-cols-lg-3 g-3">
+  {% for laptop in product2 %}
+  <div class="col">
+    <div class="card"  style="padding: 30px; height: 400px;">
+      <a href="{% url 'viewproduct' laptop.id %}">
+      <img src="{{ laptop.image1.url }}" class="card-img-top"
+        alt="Palm Springs Road" />
+      </a>
+      <div class="card-body">
+        <h5 class="card-title" style="font-size: 13px;">{{laptop.title|slice:":100" }}</h5>
+        <p class="card-text">
+        </p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+</div>
+
+{% endblock main-content %}
+
